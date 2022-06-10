@@ -16,7 +16,7 @@ vector<int> primsMST(int V, vector<pair<int, int>> Adj[])
     // pair => { key[node] , node}
     min_heap<pair<int, int>> mH;
 
-    // Src. node '0' has key=0. Add it to Heap
+    // Src. node='0' has key=0. Add it to Heap
     key[0] = 0;
     mH.push({0, 0});
 
@@ -26,21 +26,18 @@ vector<int> primsMST(int V, vector<pair<int, int>> Adj[])
         inMST[curr] = true;
         mH.pop();
 
-        for (auto itr : Adj[curr])
+        for (auto &[neighbor, edge_wt] : Adj[curr])
         {
-            int neighbor = itr.first;
-            int edge_wt = itr.second;
             if (!inMST[neighbor] && edge_wt < key[neighbor])
             {
                 parent[neighbor] = curr;
                 key[neighbor] = edge_wt;
-                mH.push({key[neighbor], edge_wt});
+                mH.push({key[neighbor], neighbor});
             }
         }
     }
     return parent;
 }
-
 
 int main()
 {
@@ -57,7 +54,6 @@ int main()
     Adj[5] = {MP(1, 7), MP(2, 8)};
 
     /*===========================================================*/
-
     /*  Print Graph i.e. "Adj" */
 
     // for (auto node = 0; node < V; node++)
@@ -68,18 +64,6 @@ int main()
     //         cout << "\tnb = " << itr.first << "\twt = " << itr.second << endl;
     //     }
     // }
-
-    /* Example 1:: =============================================*/
-
-    // int V = 5, E = 6;
-    // vector<pair<int, int>> Adj[V];
-
-    // Adj[0] = {MP(1, 2), MP(3, 6)};
-    // Adj[1] = {MP(0, 2), MP(2, 3), MP(3, 8), MP(4, 5)};
-    // Adj[2] = {MP(1, 3), MP(4, 7)};
-    // Adj[3] = {MP(0, 6), MP(1, 8)};
-    // Adj[4] = {MP(1, 5), MP(2, 7)};
-
     /*===========================================================*/
 
     // Print Answer
@@ -87,12 +71,21 @@ int main()
     for (int i = 0; i < V; i++)
         cout << i << " has parent " << parent[i] << " in MST" << endl;
 
-
-
     return 0;
 }
 
-/* Brute Prim's MST */
+/* Example 1:: =============================================*/
+
+// int V = 5, E = 6;
+// vector<pair<int, int>> Adj[V];
+
+// Adj[0] = {MP(1, 2), MP(3, 6)};
+// Adj[1] = {MP(0, 2), MP(2, 3), MP(3, 8), MP(4, 5)};
+// Adj[2] = {MP(1, 3), MP(4, 7)};
+// Adj[3] = {MP(0, 6), MP(1, 8)};
+// Adj[4] = {MP(1, 5), MP(2, 7)};
+
+/* Brute Prim's MST (Traverse key[] array every time) */
 // vector<int> primsMST(int V, vector<pair<int, int>> Adj[])
 // {
 //     // Create & initialize the 3 arrays: key[], mst[], parent[]
