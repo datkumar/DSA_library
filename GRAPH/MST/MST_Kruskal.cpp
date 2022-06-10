@@ -5,9 +5,8 @@ struct Edge
 {
     int u, v;
     int wt;
-    Edge(const Edge &e) : u(e.u), v(e.v), wt(e.wt) {}
     Edge(int _u, int _v, int _wt) : u(_u), v(_v), wt(_wt) {}
-    
+    Edge(const Edge &e) : u(e.u), v(e.v), wt(e.wt) {}
 };
 
 bool compareEdgeWeight(Edge e1, Edge e2)
@@ -35,11 +34,39 @@ void Union(int a, int b, vector<int> &Parent, vector<int> &Rank)
 
     else // Both have EQUAL Rank
     {
-        // Attach p2 to p1
-        Parent[p2] = p1;
-        Rank[p1]++;
+        Parent[p2] = p1; // Attach p2 to p1
+        Rank[p1]++;      // Inc. Rank of p1
     }
 }
+
+vector<Edge> KruskalMST(int V, vector<Edge> &edges)
+{
+    // Create Parent[] & Rank[] arrays for DSU
+    vector<int> Parent(V), Rank(V, 0);
+    // At start, every node is parent of itself
+    for (int i = 1; i < V; i++)
+        Parent[i] = i;
+
+    vector<Edge> mstEdges; // To store answer i.e. the MST
+
+    // Sort Edges by their Weight
+    sort(edges.begin(), edges.end(), compareEdgeWeight);
+    // Iterate over the Sorted Edges
+    for (auto curr_edge : edges)
+    {
+        // When the two ends of current edge DON'T have same Parent
+        // i.e. they belong to DIFFERENT COMPONENTS
+        if (Find(curr_edge.u, Parent) != Find(curr_edge.v, Parent))
+        {
+            // Add current edge to MST
+            mstEdges.push_back(curr_edge);
+
+            Union(curr_edge.u, curr_edge.v, Parent, Rank);
+        }
+    }
+    return mstEdges;
+}
+
 int main()
 {
     vector<Edge> edges;
@@ -57,37 +84,18 @@ int main()
     int V = 7;
     int E = edges.size();
 
-    sort(edges.begin(), edges.end(), compareEdgeWeight);
-
-    // Init. Parent[] & Rank[] arrays
-    vector<int> Parent(V);
-    for (int i = 1; i < V; i++)
-        Parent[i] = i;
-
-    vector<int> Rank(V, 0);
-
-    vector<Edge> mstEdges;
-    for (auto edge : edges)
-    {
-        if (Find(edge.u, Parent) != Find(edge.v, Parent))
-        {
-            mstEdges.push_back(edge);
-            Union(edge.u, edge.v, Parent, Rank);
-        }
-    }
+    vector<Edge> mstEdges = KruskalMST(V, edges);
 
     int cost = 0;
-    for (int i = 0; i < mstEdges.size(); i++)
+    cout << "The MST includes the following edges::" << endl;
+    cout << endl;
+    cout << "wt" << "\tu,v" << endl;
+    cout << endl;
+    for (auto &edge : mstEdges)
     {
-        
-        cout << mstEdges[i].wt << '\t' << mstEdges[i].u << "," << mstEdges[i].v << endl;
-        cost += mstEdges[i].wt;
+        cout << edge.wt << '\t' << edge.u << "," << edge.v << endl;
+        cost += edge.wt;
     }
-    // for (auto &edge : mstEdges)
-    // {
-    //     cout << edge.wt << '\t' << edge.u << "," << edge.v << endl;
-    //     cost += edge.wt;
-    // }
     cout << "\nTotal cost of MST: " << cost << endl;
 
     return 0;
