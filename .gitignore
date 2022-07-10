@@ -6,7 +6,7 @@
 # Or directories
 !*/
 !.gitignore
-!README.md
+!*.md
 
 # Ignore this file
 tempCodeRunnerFile
