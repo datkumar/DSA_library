@@ -32,7 +32,7 @@ vector<vector<int>> bfsOfGraph(vector<vector<int>> &Adj)
     vector<int> visited(V, false);
 
     vector<vector<int>> ans;
-    for (int src = 0; src < Adj.size(); src++)
+    for (int src = 0; src < V; src++)
     {
         if (!visited[src])
         {
@@ -65,7 +65,7 @@ vector<vector<int>> dfsOfGraph(vector<vector<int>> &Adj)
     vector<int> visited(V, false);
 
     vector<vector<int>> ans;
-    for (int src = 0; src < Adj.size(); src++)
+    for (int src = 0; src < V; src++)
     {
         if (!visited[src])
         {
