@@ -32,11 +32,11 @@ vector<vector<int>> bfsOfGraph(vector<vector<int>> &Adj)
     vector<int> visited(V, false);
 
     vector<vector<int>> ans;
-    for (int node = 0; node < Adj.size(); node++)
+    for (int src = 0; src < Adj.size(); src++)
     {
-        if (!visited[node])
+        if (!visited[src])
         {
-            auto compBfs = bfs(node, Adj, visited);
+            auto compBfs = bfs(src, Adj, visited);
             ans.push_back(compBfs);
         }
     }
@@ -127,3 +127,17 @@ int main()
 
     return 0;
 }
+
+/* OUTPUT: 
+ 
+BFS::
+0 
+1 2 4 
+3 5 6 10 7 9 8 11 
+
+DFS::
+0 
+1 2 4 
+3 5 6 7 8 9 10 11 
+
+*/
