@@ -17,7 +17,7 @@ int oppositeColor(int color)
     return (1 - color);
 }
 
-bool isBipartite(int src, vector<int> Adj[], int color[])
+bool isBipartite(int src, vector<vector<int>> &Adj, vector<int> &color)
 {
     queue<int> Q;
     Q.push(src);
@@ -49,10 +49,10 @@ bool isBipartite(int src, vector<int> Adj[], int color[])
     return true;
 }
 
-bool checkBipartite(vector<int> Adj[], int V)
+bool checkBipartite(vector<vector<int>> &Adj)
 {
-    int color[V];
-    memset(color, -1, sizeof(color)); // Mark ALL as NOT Colored
+    int V = Adj.size();
+    vector<int> color(V, -1); // Mark ALL as NOT Colored
     for (int i = 0; i < V; i++)
     {
         if (color[i] == -1) // if NOT Colored
@@ -68,7 +68,8 @@ int main()
 {
     int V, E;
     cin >> V >> E;
-    vector<int> Adj[V];
+    vector<vector<int>> Adj(V);
+
     for (int i = 0; i < E; i++)
     {
         int u, v;
@@ -77,7 +78,7 @@ int main()
         Adj[v].push_back(u);
     }
     cout << "Checking...." << endl;
-    if (checkBipartite(Adj, V))
+    if (checkBipartite(Adj))
         cout << "BIPARTITE" << endl;
 
     else

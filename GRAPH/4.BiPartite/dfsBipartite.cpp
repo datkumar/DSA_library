@@ -6,27 +6,29 @@ int oppositeColor(int color)
     return (1 - color);
 }
 
-bool isBiPart_dfs(int node, vector<int> Adj[], int color[])
+bool isBiPart_dfs(int &node, vector<vector<int>> &Adj, vector<int> &color)
 {
-    for (auto neighbor : Adj[node])
+    for (auto &neighbor : Adj[node])
     {
         if (color[neighbor] == -1)
         {
             color[neighbor] = oppositeColor(color[node]);
             if (!isBiPart_dfs(neighbor, Adj, color))
+            {
                 return false;
-            else if (color[neighbor] == color[node])
-                return false;
+            }
         }
-        return true;
+        else if (color[neighbor] == color[node])
+            return false;
     }
+    return true;
 }
 
-bool checkBipartite(vector<int> Adj[], int V)
+bool checkBipartite(vector<vector<int>> &Adj)
 {
-    int color[V];
-    memset(color, -1, sizeof(color));
-    for (int src = 1; src < V; src++)
+    int V = Adj.size();
+    vector<int> color(V, -1);
+    for (int src = 0; src < V; src++)
         if (color[src] == -1)
         {
             color[src] = 1;
@@ -40,8 +42,8 @@ int main()
 {
     int V, E;
     cin >> V >> E;
-    vector<int> Adj[V];
-    
+    vector<vector<int>> Adj(V);
+
     for (int i = 0; i < E; i++)
     {
         int u, v;
@@ -50,7 +52,7 @@ int main()
         Adj[v].push_back(u);
     }
     cout << "Checking...." << endl;
-    if (checkBipartite(Adj, V))
+    if (checkBipartite(Adj))
         cout << "BIPARTITE" << endl;
 
     else

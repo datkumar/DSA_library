@@ -3,17 +3,18 @@ using namespace std;
 
 /*===================================================================================*/
 
-vector<int> bfs(int src, vector<vector<int>> &Adj, vector<bool> &visited, vector<int> &compBfs)
+vector<int> bfs(int src, vector<vector<int>> &Adj, vector<int> &visited)
 {
+    vector<int> compBfs;
     queue<int> Q;
     Q.push(src);
     visited[src] = true;
     while (!Q.empty())
     {
-        auto curr = Q.front();
+        int curr = Q.front();
         Q.pop();
         compBfs.push_back(curr);
-        for (auto &neighbor : Adj[curr])
+        for (int &neighbor : Adj[curr])
         {
             if (!visited[neighbor])
             {
@@ -28,15 +29,14 @@ vector<int> bfs(int src, vector<vector<int>> &Adj, vector<bool> &visited, vector
 vector<vector<int>> bfsOfGraph(vector<vector<int>> &Adj)
 {
     int V = Adj.size();
-    vector<bool> visited(V, false);
+    vector<int> visited(V, false);
 
     vector<vector<int>> ans;
     for (int node = 0; node < Adj.size(); node++)
     {
         if (!visited[node])
         {
-            vector<int> compBfs;
-            compBfs = bfs(node, Adj, visited, compBfs);
+            auto compBfs = bfs(node, Adj, visited);
             ans.push_back(compBfs);
         }
     }
@@ -46,7 +46,7 @@ vector<vector<int>> bfsOfGraph(vector<vector<int>> &Adj)
 
 /*===================================================================================*/
 
-void dfs(int curr, vector<vector<int>> &Adj, vector<bool> &visited, vector<int> &compDfs)
+void dfs(int curr, vector<vector<int>> &Adj, vector<int> &visited, vector<int> &compDfs)
 {
     compDfs.push_back(curr);
     visited[curr] = true;
@@ -62,15 +62,15 @@ void dfs(int curr, vector<vector<int>> &Adj, vector<bool> &visited, vector<int> 
 vector<vector<int>> dfsOfGraph(vector<vector<int>> &Adj)
 {
     int V = Adj.size();
-    vector<bool> visited(V, false);
+    vector<int> visited(V, false);
 
     vector<vector<int>> ans;
-    for (int node = 0; node < Adj.size(); node++)
+    for (int src = 0; src < Adj.size(); src++)
     {
-        if (!visited[node])
+        if (!visited[src])
         {
             vector<int> dfsComp;
-            dfs(node, Adj, visited, dfsComp);
+            dfs(src, Adj, visited, dfsComp);
             ans.push_back(dfsComp);
         }
     }

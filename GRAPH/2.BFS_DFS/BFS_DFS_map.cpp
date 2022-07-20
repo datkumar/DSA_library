@@ -84,8 +84,8 @@ vector<vector<int>> dfsOfGraph(map<int, set<int>> &Adj)
 int main()
 {
 
-    // Graph  ==>  map<int,set<int>> Adj;
-
+    // Graph  =>  map< int, set<int> > Adj;
+    //        =>  map< node, { Adj. of "node" } >
     //-----------------------------------------
 
     map<int, set<int>> Adj;
