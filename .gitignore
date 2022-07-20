@@ -8,5 +8,6 @@
 !.gitignore
 !*.md
 
-# Ignore this file
+# Ignore these file/folders
+more/
 tempCodeRunnerFile
